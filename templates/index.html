@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <meta charset="UTF-8">
+    <title>NBA Cruncher</title>
+    <head>
+        <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
+        <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="/static/bower_components/angular-ui-grid/ui-grid.min.css"/>
+        <link rel="stylesheet" href="/static/bower_components/angular-loading-bar-master/build/loading-bar.min.css"/>
+
+        <script src="/static/bower_components/angular/angular.min.js"></script>
+        <script src="/static/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+        <script src="/static/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+        <script src="/static/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <script src="/static/bower_components/angular-animate/angular-animate.min.js"></script>
+        <script src="/static/bower_components/angularjs-dropdown-multiselect/dist/angularjs-dropdown-multiselect.min.js"></script>
+        <script src="/static/bower_components/angular-ui-grid/ui-grid.min.js"></script>
+        <script src="/static/bower_components/angular-loading-bar-master/build/loading-bar.min.js"></script>
+        <script src="/static/bower_components/underscore/underscore-min.js"></script>
+
+        <link rel="stylesheet" href="/static/css/main.css?v=3"/>
+        <script src="/static/js/app.js?v=3"></script>
+
+    </head>
+
+<body ng-app="App" ng-controller="AppController">
+    <div class="container filter_wrapper">
+
+        <!-- Logo -->
+        <div class="header">
+            <img src="/static/img/logo.png" alt="logo" />
+        </div>
+
+        <div class="col-md-12 col-sm-12 col-xs-12 filter_box">
+            <div class="row" style="margin-top: 20px;">
+                <!-- Select team -->
+                <div class="col-md-3 form-group">
+                    <fieldset>
+                        <legend>Select Team</legend>
+                        <div class="btn-group btn-teams" uib-dropdown is-open="status.isopen" >
+                          <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled">{{selectedTeam.title}}&nbsp;
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                            <li >
+                                <a href="#" ng-click="selectTeam(t)" ng-repeat="t in teams" ng-if="$index > 0">{{t.title}}</a>
+                            </li>
+                          </ul>
+                        </div>
+                    </fieldset>
+                </div>
+                <!-- Date Range -->
+                <div class="col-md-3 form_group">
+                  <fieldset>
+                    <legend>Date range</legend>
+                    <label for="fromDate" class="inpt_labels">
+                      <!-- From -->
+                      <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup="MM/dd/yyyy" ng-model="fromDate" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close"/>
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                      </p>
+                    </label>
+                    <label for="toDate" class="inpt_labels">
+                      <!-- To -->
+                      <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup="MM/dd/yyyy" ng-model="toDate" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close"/>
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                      </p>
+                    </label>
+                  </fieldset>
+                </div>
+                <!-- Select Players -->
+                <div class="col-md-3">
+                    <fieldset>
+                        <legend>Select Players</legend>
+                        <p class="multi1">
+                            <div ng-dropdown-multiselect="" options="onRoster"
+                            selected-model="onCourt" extra-settings="playersExtraOptions"
+                            translation-texts="translationsOnPlayers" id="multiSelect"
+                            events="onEvents" on-change="updateCourt"
+                            >
+                            </div>
+                        </p>
+                        <!-- <hr/> -->
+                        <p class="multi2">
+                            <div ng-dropdown-multiselect="" options="offRoster"
+                            selected-model="offCourt" extra-settings="playersExtraOptions"
+                            translation-texts="translationsOffPlayers" id="multiSelect"
+                            events="offEvents"
+                            >
+                            </div>
+                        </p>
+                    </fieldset>
+                </div>
+                <!-- Opponent stats -->
+                <div class="col-md-3 form-group">
+                    <fieldset>
+                        <legend>Opponent Stats</legend>
+                        <div class="btn-group" uib-dropdown>
+                          <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled">{{oppStat.id}}&nbsp;
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                            <li >
+                            <a href="#" ng-click="oppSelect1(o)" ng-repeat="o in oppStatOptions">{{o.id}}</a>
+                            </li>
+                        </div>
+
+                        <div class="btn-group" uib-dropdown>
+                          <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled">{{oppOperator.id}}&nbsp;
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                            <li >
+                                <a href="#" ng-click="oppSelect2(s)" ng-repeat="s in oppOperatorOptions">{{s.id}}</a>
+                            </li>
+                          </ul>
+                        </div>
+
+                            <input type="number" min="0" max="9999" id="oppSelect3"
+                            ng-model="oppValue">
+                            <br>
+                            <br>
+                            <button class="btn btn-lg btn-success"
+                            ng-disabled="submitState" ng-click="send()">Submit</button>
+                    </fieldset>
+                </div>
+            </div>
+            <div ui-grid="{ data: df }" class="grid" ng-model="df"
+            ng-if="gridState" ui-grid-auto-resize></div>
+            <div class="ui-grid-bottom-panel" style="text-align: center"><br /></div>
+        </div>
+    </div>
+</body>

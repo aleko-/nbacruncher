@@ -1,0 +1,100 @@
+html, body {
+  background-color: #EEEEEE;
+}
+
+legend {
+    font-size: 180%;
+}
+
+.header img {
+  float: left;
+}
+
+.btn-lg {
+    width: 200px;
+}
+
+.btn-teams{
+    margin-top: -3px;
+    margin-left: 10px;
+}
+
+.btn-primary {
+  background-color: #ffffff;
+  font-color: black;
+}
+
+.dropdown-menu {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.filter_wrapper {
+    margin-top: 30px;
+}
+
+.filter_box {
+    margin-top: 10px;
+    background-color: #fff;
+    box-shadow: 0px 0px 1px 1px #ccc;
+    color: gray;
+}
+
+.ui-grid-row:nth-child(odd):hover .ui-grid-cell{background:#E1FFE9}
+.ui-grid-row:nth-child(even):hover .ui-grid-cell{background:#E1FFE9}
+
+.form-group{
+    font-size: 15px;
+}
+
+.multi1 {
+    margin-top: -10px;
+}
+
+.multi2 {
+    margin-top: 20px;
+}
+
+.grid {
+    /*width: 500px;*/
+    height: 400px;
+}
+
+.progress {
+  height: 3em;
+  line-height: 3.5em;
+}
+
+.progress-bar {
+  transition: width 1s ease-in-out;
+}
+
+#multiSelect{
+    margin-left: 20px;
+}
+
+#teamSelect {
+    width: 200px;
+    height: 30px;
+    margin-top: 25px;
+}
+
+#oppSelect1 {
+    width: 70px;
+    height: 30px;
+    /*margin-top: 5px;*/
+}
+
+#oppSelect2{
+    width: 40px;
+    height: 30px;
+    /*margin-top: 5px;*/
+}
+
+#oppSelect3 {
+    width: 60px;
+    height: 30px;
+    border: solid 0.5px #ccc;
+    /*margin-top: 5px;*/
+    /*box-shadow: 0px 0px 1px 1px #ccc;*/
+}
